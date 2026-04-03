@@ -3,6 +3,16 @@
 <head>
 </head>
 <body>
+<p id="demo"></p>
 
+<script>
+    function addNumbers(a, b, c, d){
+        return a + b + c + d;
+    }
+
+    let result = addNumbers(3, 3, 4, 5);
+
+    document.getElementById("demo").innerHTML = "The result is " + result;
+</script>
 </body>
 </html>
