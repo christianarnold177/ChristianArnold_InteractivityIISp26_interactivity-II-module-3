@@ -4,6 +4,24 @@
 <title>Event Listener</title>
 </head>
 <body>
+<button id="myButton">Click me!</button>
+<p id="message">Original message</p>
+
+<script>
+    const button = document.getElementById("myButton");
+    const message = document.getElementById("message");
+
+    button.addEventListener("click", function(){
+        // Changing the Message //
+        message.textContent = "Nice! You clicked the button!";
+
+        // Changing the Background Color //
+        document.body.style.backgroundColor = "lightblue";
+
+        // Adding one more change (text color) //
+        message.style.color = "darkblue";
+    });
+</script>
 
 </body>
 </html>
