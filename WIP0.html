@@ -4,7 +4,43 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Button Experiment</title>
-<style></style>
+<style> 
+  /* Styling the Page */
+  body{
+    margin: 0;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    background: #111;
+    color: white;
+  }
+
+  /* Styling the Button */
+  button{
+    position: absolute;
+    padding: 10px 14px;
+    border: none;
+    background: #444;
+    color: white;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: transform 0.2s, background 0.2s;
+  }
+
+  button:hover{
+    transform: scale(1.15);
+    background: #666;
+  }
+
+  /* Displaying the Poem */
+  #poemDisplay{
+    position: fixed;
+    bottom: 20px;
+    width: 100%;
+    text-align: center;
+    font-size: 18px;
+    padding: 10px;
+  }
+</style>
 </head>
 <body>
 
