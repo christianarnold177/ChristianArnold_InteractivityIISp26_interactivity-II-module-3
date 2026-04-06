@@ -69,8 +69,13 @@ function getRandomPosition(){
 }
 
 function updatePoem(){
-    
+    const display = document.getElementById("poemDisplay");
+    display.textContent = poemLines[currentLineIndex % poemLines.length];
+    currentLineIndex++;
 }
+
+/* Creating the Button */
+
 </script> 
 </body>
 </html>
