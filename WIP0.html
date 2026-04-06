@@ -96,9 +96,19 @@ function createButton(x,y){
         btn.style.top = newPos.y + "px";
 
         // Slight Rotation to give this an experimental feel //
+        btn.style.transform = "rotate(" + (Math.random() * 360) + "deg)";
 
-    })
+        // Spawing more Buttons //
+        for (let i = 0; i < 2; i++){
+            const pos = getRandomPosition();
+            createButton(pos.x, pos.y);
+        }
+    });
+
+    document.body.appendChild(btn);
 }
+
+
 </script> 
 </body>
 </html>
