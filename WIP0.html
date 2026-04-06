@@ -108,7 +108,14 @@ function createButton(x,y){
     document.body.appendChild(btn);
 }
 
+/* The Initial Setup */
+function init(){
+    const centerX = window.innerWidth / 2;
+    const centerY = window.innerHeight / 2;
+    createButton(centerX, centerY);
+}
 
+window.onload = init;
 </script> 
 </body>
 </html>
