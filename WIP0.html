@@ -75,7 +75,29 @@ function updatePoem(){
 }
 
 /* Creating the Button */
+function createButton(x,y){
+    if (totalButtons >= MAX_BUTTONS) return;
 
+    const btn = document.createElement("button");
+    btn.textContent = "Button";
+
+    btn.style.left = x + "px";
+    btn.style.top = y + "px";
+
+    totalButtons++;
+
+    btn.addEventListener("click", () =>{
+        updatePoem();
+
+        // Move the Button Randomly when clicked //
+        const newPos = getRandomPosition();
+        btn.style.left = newPos.x + "px";
+        btn.style.top = newPos.y + "px";
+
+        // Slight Rotation to give this an experimental feel //
+        
+    })
+}
 </script> 
 </body>
 </html>
