@@ -112,7 +112,20 @@
     });
 
     // Form Interaction //
+    const contactForm = document.getElementById('contactForm');
+    const formOutput = document.getElementById('form-output');
+    contactForm.addEventListener('submit', (e) =>{
+        e.preventDefault();
+        const name = contactForm.name.value.trim();
+        formOutput.textContent = `Thanks, ${name}! Message has been recieved.`;
+        contactForm.reset();
+    });
 
+    // Dark Mode Toggle //
+    const themeToggle = document.getElementById('themeToggle');
+    themeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark-theme');
+    });
  </script>
 </body>
 </html>
