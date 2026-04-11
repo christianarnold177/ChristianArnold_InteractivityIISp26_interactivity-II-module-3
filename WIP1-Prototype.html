@@ -123,9 +123,11 @@
 
     // Dark Mode Toggle //
     const themeToggle = document.getElementById('themeToggle');
-    themeToggle.addEventListener('click', () => {
-        document.body.classList.toggle('dark-theme');
-    });
+    if (themeToggle) {
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-theme');
+        });
+    }
  </script>
 </body>
 </html>
