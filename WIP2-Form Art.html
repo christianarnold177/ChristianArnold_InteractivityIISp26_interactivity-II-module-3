@@ -26,6 +26,8 @@
     --accent1: #7c3aed;
     --accent2: #06b6d4;
     --accebt3: #22c55e;
+    --accent4: #f97316;
+    --accent5: #ef4444;
     --text: #f1f1f1;
 }
 
@@ -93,6 +95,20 @@ body{
     animation-delay: 6s;
 }
 
+.blob.four{
+    background: var(--accent4);
+    top: 10%;
+    right: 20%;
+    animation-delay: 2s;
+}
+
+.blob.five{
+    background: var(--accent5);
+    bottom: 20%;
+    left: 30%;
+    animation-delay: 5s;
+}
+
 @keyframes float{
     0%, 100% { transform: translate(0,0) scale(1); }
     50% { transform: translate(50px,-50px) scale(1.1); }
@@ -103,7 +119,69 @@ main{
     position: relative;
     z-index: 2;
     height: 100vh;
-    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+}
+
+/* Title */
+h1{
+    font-weight: 300;
+    letter-spacing: 2px;
+    margin-bottom: 1rem;
+}
+
+textarea{
+    width: 100%;
+    max-width: 520px;
+    height: 130px;
+    padding: 1rem;
+    border: none;
+    border-radius: 18px;
+    background: rgba(255,255,255,0.08);
+    color: white;
+    font-size: 1rem;
+    outline: none;
+    backdrop-filter: blur(12px);
+    transition: all 0.4s ease;
+}
+
+textarea:focus{
+    transform: scale(1.03);
+    background: rgba(255,255,255,0.12);
+}
+
+/* The Output */
+#output{
+    margin-top: 2rem;
+    font-size: 1.15rem;
+    max-width: 650px;
+    min-height: 2rem;
+    opacity: 0.95;
+}
+
+/* The Cursor */
+.cursor{
+    display: inline-block;
+    width: 2px;
+    height: 18px;
+    background: white;
+    margin-left: 4px;
+    animation: blink 1s infinite;
+}
+
+@keyframes blink{
+    50% { opacity: 0; }
+}
+
+/* A Hint */
+.hint{
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    opacity: 0.5;
 }
 </style>
 
