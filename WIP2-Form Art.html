@@ -26,7 +26,43 @@
 </main>
 
 <style>
+:root{
+    --bg: #f0f2f5;
+    --surface: #ffffff;
+    --text: #222;
+    --accent: #4CAF50;
+}
 
+.dark-theme{
+    --bg: #111;
+    --surface: #1e1e1e;
+    --text: #eee;
+    --accent: #6ddc7a;
+}
+
+body{
+    margin: 0;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: var(--text);
+    color: var(--text);
+    transition: background 0.4s ease, color 0.4s ease;
+}
+
+/* The Header */
+header{
+    text-align: center;
+    padding: 1.5rem;
+}
+
+header h1{
+    font-weight: 500;
+    letter-spacing: 1px;
+}
+
+/* Layout for the main portion */
+main{
+
+}
 </style>
 
 <script>
