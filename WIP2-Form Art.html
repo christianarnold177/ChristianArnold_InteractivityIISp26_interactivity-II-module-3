@@ -193,7 +193,27 @@ textarea:focus{
 </style>
 
 <script>
+document.addEventListener('DOMContentLoaded', () => {
+    const input = document.getElementById('input');
+    const output = document.getElementById('output');
 
+    let typingInterval = null;
+    let timeout = null;
+
+    // Color System //
+    function shiftColors(len){
+        const base = (len * 10) % 360;
+
+        document.documentElement.style.setProperty('--accent1', `hsl(${base}, 80%, 60%)`);
+        document.documentElement.style.setProperty('--accent2', `hsl(${base + 40}, 85%, 60%)`);
+        document.documentElement.style.setProperty('--accent3', `hsl(${base + 80}, 80%, 55%)`);
+        document.documentElement.style.setProperty('--accent4', `hsl(${base + 120}, 100%, 65%)`);
+        document.documentElement.style.setProperty('--accent5', `hsl(${base + 160}, 85%, 55%)`);
+    }
+
+    // Typing Animation //
+    
+})
 </script>
 
 </body>
