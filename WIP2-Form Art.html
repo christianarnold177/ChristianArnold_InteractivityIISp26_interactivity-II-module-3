@@ -212,7 +212,28 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Typing Animation //
-    
+    function typeText(text){
+        if (typingInterval) clearInterval(typingInterval);
+
+        output.innerHTML = '';
+        let i = 0;
+
+        const cursor = document.createElement('span');
+        cursor.className = 'cursor';
+        output.appendChild(cursor);
+
+        typingInterval = setInterval(() => {
+            if (i < text.length) {
+                cursor.insertAdjacentText('beforebegin', text[i]);
+                i++;
+            } else {
+                clearInterval(typingInterval);
+                cursor.remove();
+            }
+        }, 28);
+    }
+
+
 })
 </script>
 
