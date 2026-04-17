@@ -245,8 +245,18 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Adding a Pause Response //
-    
-})
+    input.addEventListener('keyup', () =>{
+        clearTimeout(timeout);
+
+        timeout = setTimeout(() =>{
+            const value = input.value.trim();
+
+            if (value.length > 0) {
+                typeText(`"${value}" becomes space, rhythm, and color.`);
+            }
+        }, 450);
+    });
+});
 </script>
 
 </body>
