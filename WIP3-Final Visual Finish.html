@@ -32,7 +32,27 @@ resize();
 window.addEventListener("resize", resize);
 
 // The Particles //
+const particles = [];
+const COUNT = 80;
 
+function randomShape(){
+    const shapes = ["circle", "square", "triangle", "diamond", "star", "line"];
+    return shapes[Math.floor(Math.random()*shapes.length)];
+}
+
+for(let i=0; i<COUNT;i++){
+    particles.push({
+        x: Math.random()*canvas.width,
+        y: Math.random()*canvas.height,
+        vx: 0,
+        vy: 0,
+        size: Math.random()*3+1,
+        shape: randomShape(),
+        hue: Math.random()*360,
+        tx: null,
+        ty: null
+    });
+}
 </script>
 </body>
 </html>
