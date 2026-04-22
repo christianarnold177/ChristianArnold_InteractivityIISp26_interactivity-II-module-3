@@ -53,6 +53,16 @@ for(let i=0; i<COUNT;i++){
         ty: null
     });
 }
+
+// The Flow Field //
+let time = 0;
+
+function flowAngle(x,y){
+    return Math.sin(x*0.002 + time) + Math.cos(y*0.002 + time);
+}
+
+// The Pattern System //
+
 </script>
 </body>
 </html>
