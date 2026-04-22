@@ -123,6 +123,24 @@ canvas.addEventListener("click", (e)=>{
 });
 
 // Adding the Hover Interaction //
+canvas.addEventListener("mousemove", (e)=>{
+    const mx = e.clientX;
+    const my = e.clientY;
+
+    for(let p of particles){
+        let dx = p.x - mx;
+        let dy = p.y - my;
+        let dist = Math.sqrt(dx*dx + dy*dy);
+
+        if (dist < 80){
+            p.vx += dx * 0.01;
+            p.vy += dy * 0.01;
+            p.hue += 3;
+        }
+    }
+});
+
+// Drawing the Shapes //
 
 </script>
 </body>
