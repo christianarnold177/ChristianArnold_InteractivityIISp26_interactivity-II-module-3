@@ -104,6 +104,25 @@ function generateSmiley(){
 }
 
 // Adding the Clicking Interaction //
+canvas.addEventListener("click", (e)=>{
+    const mx = e.clientX;
+    const my = e.clientY;
+
+    for(let p of particles){
+        let dx = p.x - mx;
+        let dy = p.y - my;
+        let dist = Math.sqrt(dx*dx + dy*dy);
+
+        if(dist < 150){
+            p.vx += dx * 0.06;
+            p.vy += dy * 0.06;
+            p.shape = randomShape();
+            p.hue += 40;
+        }
+    }
+});
+
+// Adding the Hover Interaction //
 
 </script>
 </body>
