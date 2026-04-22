@@ -62,6 +62,48 @@ function flowAngle(x,y){
 }
 
 // The Pattern System //
+let patternMode = false;
+let patternTime = 0;
+let patternType = null;
+
+function generateSpiral(){
+    const cx = canvas.width / 2;
+    const cy = canvas.height / 2;
+
+    particles.forEach((p,i)=>{
+        let angle = i * 0.3;
+        let radius = i * 2;
+
+        p.tx = cx + Math.cos(angle) * radius;
+        p.ty = cy + Math.sin(angle) * radius;
+    });
+}
+
+function generateSmiley(){
+    const cx = canvas.width / 2;
+    const cy = canvas.height / 2;
+
+    particles.forEach((p,i)=>{
+        if(i < particles.length * 0.6){
+            let angle = (i / (particles.length * 0.6)) * Math.PI * 2;
+            p.tx = cx + Math.cos(angle) * 120;
+            p.ty = cy + Math.sin(angle) * 120;
+        }
+        else if(i < particles.length * 0.8){
+            let side = i % 2 === 0 ? -40 : 40;
+            p.tx = cx + side;
+            p.ty = cy - 40;
+        }
+        else{
+            let t = (i - particles.length*0.8) / (particles.length*0.2);
+            let angle = Math.PI * t;
+            p.tx = cx + Math.cos(angle) * 70;
+            p.ty = cy + Math.sin(angle) * 50 + 30;
+        }
+    });
+}
+
+// Adding the Clicking Interaction //
 
 </script>
 </body>
