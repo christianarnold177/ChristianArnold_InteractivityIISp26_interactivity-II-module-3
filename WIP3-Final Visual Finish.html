@@ -21,6 +21,17 @@ body{
 <canvas id="bg"></canvas>
 <script>
 // Setting up the canvas //
+const canvas = document.getElementById("bg");
+const ctx = canvas.getContent("2d");
+
+function resize(){
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener("resize", resize);
+
+// The Particles //
 
 </script>
 
