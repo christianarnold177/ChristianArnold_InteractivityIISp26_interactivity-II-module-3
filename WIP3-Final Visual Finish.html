@@ -20,7 +20,7 @@ body{
 <body>
 <canvas id="bg"></canvas>
 <script>
-// Setting up the canvas //
+/* Setting up the canvas */
 const canvas = document.getElementById("bg");
 const ctx = canvas.getContent("2d");
 
@@ -54,14 +54,14 @@ for(let i=0; i<COUNT;i++){
     });
 }
 
-// The Flow Field //
+/* The Flow Field */
 let time = 0;
 
 function flowAngle(x,y){
     return Math.sin(x*0.002 + time) + Math.cos(y*0.002 + time);
 }
 
-// The Pattern System //
+/* The Pattern System */
 let patternMode = false;
 let patternTime = 0;
 let patternType = null;
@@ -103,7 +103,7 @@ function generateSmiley(){
     });
 }
 
-// Adding the Clicking Interaction //
+/* Adding the Clicking Interaction */
 canvas.addEventListener("click", (e)=>{
     const mx = e.clientX;
     const my = e.clientY;
@@ -122,7 +122,7 @@ canvas.addEventListener("click", (e)=>{
     }
 });
 
-// Adding the Hover Interaction //
+/* Adding the Hover Interaction */
 canvas.addEventListener("mousemove", (e)=>{
     const mx = e.clientX;
     const my = e.clientY;
@@ -140,7 +140,7 @@ canvas.addEventListener("mousemove", (e)=>{
     }
 });
 
-// Drawing the Shapes //
+/* Drawing the Shapes */
 
 </script>
 </body>
