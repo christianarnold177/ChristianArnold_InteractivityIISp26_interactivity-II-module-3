@@ -46,13 +46,18 @@ for(let i=0; i<COUNT;i++){
         y: Math.random()*canvas.height,
         vx: 0,
         vy: 0,
-        size: Math.random()*3+1,
+        size: Math.random()*8+4,
         shape: randomShape(),
         hue: Math.random()*360,
         tx: null,
         ty: null
     });
 }
+
+particles.forEach(p=>{
+    p.vx = (Math.random() - 0.5) * 4;
+    p.vy = (Math.random() - 0.5) * 4;
+});
 
 /* The Flow Field */
 let time = 0;
@@ -169,25 +174,34 @@ function drawShape(p){
 
     if(p.shape === "line"){
         ctx.moveTo(p.x, p.y);
-        ctx.lineTo(p.x + p.size*2, p.y);
+        ctx.lineTo(
+            p.x + Math.cos(time*2) * p.size*2,
+            p.y + Math.sin(time*2) * p.size*2
+        );
     }
 
     if(p.shape === "star"){
-        for(let i=0;i<5;i++){
-            let a = 1 * (Math.PI * 2 / 5);
-            let x = p.x + Math.cos(a) * p.size;
-            let y = p.y + Math.sin(a) * p.size;
-            ctx.lineTo(x,y);
-        }
-        ctx.closePath();
+    ctx.moveTo(p.x, p.y - p.size);
+
+    for(let i = 1; i < 10; i++){
+        let angle = i * Math.PI / 5;
+        let radius = i % 2 === 0 ? p.size : p.size/2;
+
+        ctx.lineTo(
+            p.x + Math.sin(angle) * radius,
+            p.y - Math.cos(angle) * radius
+        );
     }
+
+    ctx.closePath();
+}
 
     ctx.fill();
 }
 
 /* The Animation is on a loop */
 function animate(){
-    ctx.fillStyle = "rgba(15,15,26,0.2)";
+    ctx.fillStyle = "rgba(15,15,26,0.08)";
     ctx.fillRect(0,0,canvas.width,canvas.height);
 
     time += 0.003;
