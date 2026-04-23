@@ -5,13 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Echoes</title>
 <style>
-body{
+body {
     margin: 0;
     overflow: hidden;
     background: #0f0f1a;
 }
 
-#bg{
+#bg {
     position: fixed;
     inset: 0;
 }
@@ -20,9 +20,9 @@ body{
 <body>
 <canvas id="bg"></canvas>
 <script>
-/* Setting up the canvas */
+/* Setting up the Canvas */
 const canvas = document.getElementById("bg");
-const ctx = canvas.getContent("2d");
+const ctx = canvas.getContext("2d");
 
 function resize(){
     canvas.width = window.innerWidth;
@@ -31,33 +31,28 @@ function resize(){
 resize();
 window.addEventListener("resize", resize);
 
-// The Particles //
+/* The Particles */
 const particles = [];
 const COUNT = 80;
 
 function randomShape(){
-    const shapes = ["circle", "square", "triangle", "diamond", "star", "line"];
+    const shapes = ["circle","square","triangle","diamond","star","line"];
     return shapes[Math.floor(Math.random()*shapes.length)];
 }
 
-for(let i=0; i<COUNT;i++){
+for(let i=0;i<COUNT;i++){
     particles.push({
         x: Math.random()*canvas.width,
         y: Math.random()*canvas.height,
         vx: 0,
         vy: 0,
-        size: Math.random()*8+4,
+        size: Math.random()*3+1,
         shape: randomShape(),
         hue: Math.random()*360,
         tx: null,
         ty: null
     });
 }
-
-particles.forEach(p=>{
-    p.vx = (Math.random() - 0.5) * 4;
-    p.vy = (Math.random() - 0.5) * 4;
-});
 
 /* The Flow Field */
 let time = 0;
@@ -99,7 +94,7 @@ function generateSmiley(){
             p.tx = cx + side;
             p.ty = cy - 40;
         }
-        else{
+        else {
             let t = (i - particles.length*0.8) / (particles.length*0.2);
             let angle = Math.PI * t;
             p.tx = cx + Math.cos(angle) * 70;
@@ -108,8 +103,8 @@ function generateSmiley(){
     });
 }
 
-/* Adding the Clicking Interaction */
-canvas.addEventListener("click", (e)=>{
+/* Clicking Interaction */
+canvas.addEventListener("click",(e)=>{
     const mx = e.clientX;
     const my = e.clientY;
 
@@ -127,8 +122,8 @@ canvas.addEventListener("click", (e)=>{
     }
 });
 
-/* Adding the Hover Interaction */
-canvas.addEventListener("mousemove", (e)=>{
+/* Hovering Interaction */
+canvas.addEventListener("mousemove",(e)=>{
     const mx = e.clientX;
     const my = e.clientY;
 
@@ -137,7 +132,7 @@ canvas.addEventListener("mousemove", (e)=>{
         let dy = p.y - my;
         let dist = Math.sqrt(dx*dx + dy*dy);
 
-        if (dist < 80){
+        if(dist < 80){
             p.vx += dx * 0.01;
             p.vy += dy * 0.01;
             p.hue += 3;
@@ -174,39 +169,30 @@ function drawShape(p){
 
     if(p.shape === "line"){
         ctx.moveTo(p.x, p.y);
-        ctx.lineTo(
-            p.x + Math.cos(time*2) * p.size*2,
-            p.y + Math.sin(time*2) * p.size*2
-        );
+        ctx.lineTo(p.x + p.size*2, p.y);
     }
 
     if(p.shape === "star"){
-    ctx.moveTo(p.x, p.y - p.size);
-
-    for(let i = 1; i < 10; i++){
-        let angle = i * Math.PI / 5;
-        let radius = i % 2 === 0 ? p.size : p.size/2;
-
-        ctx.lineTo(
-            p.x + Math.sin(angle) * radius,
-            p.y - Math.cos(angle) * radius
-        );
+        for(let i=0;i<5;i++){
+            let a = i * (Math.PI * 2 / 5);
+            let x = p.x + Math.cos(a) * p.size;
+            let y = p.y + Math.sin(a) * p.size;
+            ctx.lineTo(x,y);
+        }
+        ctx.closePath();
     }
-
-    ctx.closePath();
-}
 
     ctx.fill();
 }
 
-/* The Animation is on a loop */
+/* Animation is on a Loop */
 function animate(){
-    ctx.fillStyle = "rgba(15,15,26,0.08)";
+    ctx.fillStyle = "rgba(15,15,26,0.2)";
     ctx.fillRect(0,0,canvas.width,canvas.height);
 
     time += 0.003;
 
-    /* Adding Trigger Patterns */
+    /* Trigger Patterns */
     if(!patternMode && Math.random() < 0.002){
         patternMode = true;
         patternTime = 0;
@@ -221,7 +207,7 @@ function animate(){
 
         let angle = flowAngle(p.x,p.y);
 
-        /* The Flow is Normal */
+        /* Normal Flow */
         p.vx += Math.cos(angle)*0.05;
         p.vy += Math.sin(angle)*0.05;
 
@@ -237,7 +223,7 @@ function animate(){
         p.x += p.vx;
         p.y += p.vy;
 
-        /* The Wrap is Infinite */
+        /* Infinite Wrap */
         if(p.x < 0) p.x = canvas.width;
         if(p.x > canvas.width) p.x = 0;
         if(p.y < 0) p.y = canvas.height;
@@ -259,5 +245,6 @@ function animate(){
 
 animate();
 </script>
+
 </body>
 </html>
