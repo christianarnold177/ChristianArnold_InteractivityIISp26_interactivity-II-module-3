@@ -141,6 +141,50 @@ canvas.addEventListener("mousemove", (e)=>{
 });
 
 /* Drawing the Shapes */
+function drawShape(p){
+    ctx.beginPath();
+
+    if(p.shape === "circle"){
+        ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
+    }
+
+    if(p.shape === "square"){
+        ctx.rect(p.x - p.size/2, p.y - p.size/2, p.size, p.size);
+    }
+
+    if(p.shape === "triangle"){
+        ctx.moveTo(p.x, p.y - p.size);
+        ctx.lineTo(p.x - p.size, p.y + p.size);
+        ctx.lineTo(p.x + p.size, p.y + p.size);
+        ctx.closePath();
+    }
+
+    if(p.shape === "diamond"){
+        ctx.moveTo(p.x, p.y - p.size);
+        ctx.lineTo(p.x - p.size, p.y);
+        ctx.lineTo(p.x, p.y + p.size);
+        ctx.lineTo(p.x + p.size, p.y);
+        ctx.closePath();
+    }
+
+    if(p.shape === "line"){
+        ctx.moveTo(p.x, p.y);
+        ctx.lineTo(p.x + p.size*2, p.y);
+    }
+
+    if(p.shape === "star"){
+        for(let i=0;i<5;i++){
+            let a = 1 * (Math.PI * 2 / 5);
+            let x = p.x + Math.cos(a) * p.size;
+            let y = p.y + Math.sin(a) * p.size;
+            ctx.lineTo(x,y);
+        }
+        ctx.closePath();
+    }
+
+    ctx.fill();
+}
+
 
 </script>
 </body>
