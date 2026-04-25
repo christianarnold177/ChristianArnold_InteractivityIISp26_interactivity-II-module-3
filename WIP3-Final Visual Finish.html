@@ -223,6 +223,25 @@ function generateSmiley(){
 }
 
 /* A Canvas Click Burst */
+canvas.addEventListener("click",(e)=>{
+    const mx = e.clientX;
+    const my = e.clientY;
+
+    particles.forEach(p=>{
+        let dx = p.x-mx;
+        let dy = p.y-my;
+        let dist = Math.sqrt(dx*dx+dy*dy);
+
+        if(dist < 150){
+            p.vx += dx*0.08;
+            p.vy += dy*0.08;
+            p.hue += 40;
+            p.shape = randomShape();
+        }
+    });
+});
+
+
 </script>
 </body>
 </html>
