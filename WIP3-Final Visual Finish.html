@@ -260,6 +260,46 @@ canvas.addEventListener("mousemove",(e)=>{
 });
 
 /* Adding Weird Button Logic */
+const chaosBtn = document.getElementById("chaosBtn");
+let buttonClicks = 0;
+
+chaosBtn.addEventListener("click", () => {
+    buttonClicks++;
+
+    particles.forEach(p=>{
+        p.vx += (Math.random()-0.5)*10;
+        p.vy += (Math.random()-0.5)*10;
+        p.hue += Math.random()*120;
+        p.shape = randomShape();
+    });
+
+    patternMode = true;
+    patternTime = 0;
+
+    Math.random() < 0.5
+        ? generateSpiral()
+        : generateSmiley();
+    
+    if(buttonClicks === 2){
+        chaosBtn.textContent = "why did you press the button?";
+    }
+
+    if(buttonClicks === 4){
+        chaosBtn.textContent = "Please stop.";
+        chaosBtn.style.transform = "rotate(15deg)";
+    }
+
+    if(buttonClicks >= 6){
+        chaosBtn.textContent = "Catch me if you can";
+
+        chaosBtn.style.top =
+            Math.random() * (window.innerHeight * 0.7) + "px";
+
+        chaosBtn.style.left =
+            Math.random() * (window.innerWidth * 0.7) + "px";
+    }
+});
+
 
 </script>
 </body>
