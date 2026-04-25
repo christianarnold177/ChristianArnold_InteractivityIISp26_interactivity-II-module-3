@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Echoes</title>
+
 <style>
 body{
     margin:0;
@@ -109,9 +110,11 @@ body{
 }
 </style>
 </head>
+
 <body>
+
 <!-- The Weird Button -->
-<button id="chaosBtn">Please Don't Press This Button!</button>
+<button id="chaosBtn">Do Not Press</button>
 
 <!-- The Background Blobs -->
 <div class="blob blob1"></div>
@@ -122,15 +125,15 @@ body{
 
 <canvas id="bg"></canvas>
 
-<!-- The Calm Music -->
+<!-- Music -->
 <audio id="music" loop>
-    <source src="Snowfall.mp3" type="audio/mpeg">
+    <source src="snowfall.mp3" type="audio/mpeg">
 </audio>
 
 <script>
 /* The Canvas */
 const canvas = document.getElementById("bg");
-const ctx = canvas.getContent("2d");
+const ctx = canvas.getContext("2d");
 
 function resize(){
     canvas.width = window.innerWidth;
@@ -222,7 +225,7 @@ function generateSmiley(){
     });
 }
 
-/* A Canvas Click Burst */
+/* Canvas Click Burst */
 canvas.addEventListener("click",(e)=>{
     const mx = e.clientX;
     const my = e.clientY;
@@ -241,7 +244,7 @@ canvas.addEventListener("click",(e)=>{
     });
 });
 
-/* Adding a Cursor Brush */
+/* A Cursor Brush */
 canvas.addEventListener("mousemove",(e)=>{
     const mx = e.clientX;
     const my = e.clientY;
@@ -252,14 +255,14 @@ canvas.addEventListener("mousemove",(e)=>{
         let dist = Math.sqrt(dx*dx+dy*dy);
 
         if(dist < 100){
-           p.vx += dx*0.02;
-           p.vy += dy*0.02;
-           p.hue += 4; 
+            p.vx += dx*0.02;
+            p.vy += dy*0.02;
+            p.hue += 4;
         }
     });
 });
 
-/* Adding Weird Button Logic */
+/* Some Weird Button Logic */
 const chaosBtn = document.getElementById("chaosBtn");
 let buttonClicks = 0;
 
@@ -279,18 +282,18 @@ chaosBtn.addEventListener("click", () => {
     Math.random() < 0.5
         ? generateSpiral()
         : generateSmiley();
-    
+
     if(buttonClicks === 2){
-        chaosBtn.textContent = "why did you press the button?";
+        chaosBtn.textContent = "why did you press it?";
     }
 
     if(buttonClicks === 4){
-        chaosBtn.textContent = "Please stop.";
+        chaosBtn.textContent = "stop.";
         chaosBtn.style.transform = "rotate(15deg)";
     }
 
     if(buttonClicks >= 6){
-        chaosBtn.textContent = "Catch me if you can";
+        chaosBtn.textContent = "catch me";
 
         chaosBtn.style.top =
             Math.random() * (window.innerHeight * 0.7) + "px";
