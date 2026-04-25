@@ -114,7 +114,7 @@ body{
 <body>
 
 <!-- The Weird Button -->
-<button id="chaosBtn">Do Not Press</button>
+<button id="chaosBtn">Don't Press this Button</button>
 
 <!-- The Background Blobs -->
 <div class="blob blob1"></div>
@@ -284,16 +284,16 @@ chaosBtn.addEventListener("click", () => {
         : generateSmiley();
 
     if(buttonClicks === 2){
-        chaosBtn.textContent = "why did you press it?";
+        chaosBtn.textContent = "why did you press the button?";
     }
 
     if(buttonClicks === 4){
-        chaosBtn.textContent = "stop.";
+        chaosBtn.textContent = "Please stop.";
         chaosBtn.style.transform = "rotate(15deg)";
     }
 
     if(buttonClicks >= 6){
-        chaosBtn.textContent = "catch me";
+        chaosBtn.textContent = "Come and catch me";
 
         chaosBtn.style.top =
             Math.random() * (window.innerHeight * 0.7) + "px";
