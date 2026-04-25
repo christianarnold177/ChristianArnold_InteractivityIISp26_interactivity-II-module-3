@@ -182,7 +182,47 @@ for(let i=0;i<COUNT;i++){
 }
 
 /* The Flow Field */
+let time = 0;
 
+function flowAngle(x,y){
+    return Math.sin(x*0.002 + time) +
+           Math.cos(y*0.002 + time);
+}
+
+/* Patterns */
+let patternMode = false;
+let patternTime = 0;
+
+function generateSpiral(){
+    const cx = canvas.width/2;
+    const cy = canvas.height/2;
+
+    particles.forEach((p,i)=>{
+        let angle = i*0.35;
+        let radius = i*2;
+
+        p.tx = cx + Math.cos(angle)*radius;
+        p.ty = cy + Math.sin(angle)*radius;
+    });
+}
+
+function generateSmiley(){
+    const cx = canvas.width/2;
+    const cy = canvas.height/2;
+
+    particles.forEach((p,i)=>{
+        if(i < particles.length*0.6){
+            let angle = (i/(particles.length*0.6))*Math.PI*2;
+            p.tx = cx + Math.cos(angle)*120;
+            p.ty = cy + Math.sin(angle)*120;
+        } else {
+            p.tx = cx + (Math.random()-0.5)*120;
+            p.ty = cy + (Math.random()-0.5)*120;
+        }
+    });
+}
+
+/* A Canvas Click Burst */
 </script>
 </body>
 </html>
