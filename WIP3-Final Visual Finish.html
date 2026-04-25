@@ -344,6 +344,62 @@ function drawShape(p){
 
     ctx.fill();
 }
+
+/* The Animation Loop */
+function animate(){
+    ctx.fillStyle="rgba(15,15,26,0.18)";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+
+    time += 0.003;
+
+    if(!patternMode && Math.random() < 0.002){
+        patternMode = true;
+        patternTime = 0;
+
+        Math.random() < 0.5
+            ? generateSpiral()
+            : generateSmiley();
+    }
+
+    particles.forEach(p=>{
+
+        let angle = flowAngle(p.x,p.y);
+
+        p.vx += Math.cos(angle)*0.05*audioEnergy;
+        p.vy += Math.sin(angle)*0.05*audioEnergy;
+
+        if(patternMode){
+            p.vx += (p.tx-p.x)*0.02;
+            p.vy += (p.ty-p.y)*0.02;
+        }
+
+        p.vx *= 0.96;
+        p.vy *= 0.96;
+
+        p.x += p.vx;
+        p.y += p.vy;
+
+        if(p.x < 0) p.x = canvas.width;
+        if(p.x > canvas.width) p.x = 0;
+        if(p.y < 0) p.y = canvas.height;
+        if(p.y > canvas.height) p.y = 0;
+
+        ctx.fillStyle = `hsl(${p.hue},90%,65%)`;
+        drawShape(p);
+    });
+
+    if(patternMode){
+        patternTime++;
+        if(patternTime > 180){
+            patternMode = false;
+        }
+    }
+
+    requestAnimationFrame(animate);
+}
+
+animate();
 </script>
+
 </body>
 </html>
