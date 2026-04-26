@@ -75,7 +75,7 @@ window.addEventListener("mousemove",(e)=>{
 
 /* The Particles */
 const particles = [];
-const COUNT = 230;
+const COUNT = 250;
 
 for(let i=0;i<COUNT;i++){
     particles.push({
@@ -207,43 +207,54 @@ function animate(){
         ctx.fill();
     });
 
-    /* The Particles (Continued) */
+    /* The Particles (Adding Space Flow) */
     particles.forEach(p=>{
-        p.vx += (Math.random()-0.5)*0.02;
-        p.vy += (Math.random()-0.5)*0.02;
+         let flowX = Math.sin(time * 0.5) * 0.15;
+    let flowY = Math.cos(time * 0.5) * 0.15;
 
-        // Mouse Repulsion //
-        let dx = p.x - mouse.x;
-        let dy = p.y - mouse.y;
-        let dist = Math.sqrt(dx*dx + dy*dy);
+    // Star Inertia + Drift //
+    p.vx += flowX;
+    p.vy += flowY;
 
-        if(dist < 120){
-            p.vx += dx * 0.01;
-            p.vy += dy * 0.01;
-        }
+    // Subtle Randomness //
+    p.vx += (Math.random()-0.5)*0.01;
+    p.vy += (Math.random()-0.5)*0.01;
 
-        // Shape Attraction //
-        if(shapeMode){
-            p.vx += (p.tx - p.x)*0.02;
-            p.vy += (p.ty - p.y)*0.02;
-        }
+    // Mouse Repulsion //
+    let dx = p.x - mouse.x;
+    let dy = p.y - mouse.y;
+    let dist = Math.sqrt(dx*dx + dy*dy);
 
-        p.vx *= 0.95;
-        p.vy *= 0.95;
+    if(dist < 140){
+        p.vx += dx * 0.008;
+        p.vy += dy * 0.008;
+    }
 
-        p.x += p.vx;
-        p.y += p.vy;
+    // Shape Mode Attraction //
+    if(shapeMode){
+        p.vx += (p.tx - p.x) * 0.02;
+        p.vy += (p.ty - p.y) * 0.02;
+    }
 
-        if(p.x<0) p.x=canvas.width;
-        if(p.x>canvas.width) p.x=0;
-        if(p.y<0) p.y=canvas.height;
-        if(p.y>canvas.height) p.y=0;
+    // Damping (smooth space motion) //
+    p.vx *= 0.96;
+    p.vy *= 0.96;
 
-        ctx.fillStyle = `hsl(${p.hue},90%,60%)`;
-        ctx.beginPath();
-        ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
-        ctx.fill();
-    });
+    p.x += p.vx;
+    p.y += p.vy;
+
+    // Infinite Wrap Space //
+    if(p.x < 0) p.x = canvas.width;
+    if(p.x > canvas.width) p.x = 0;
+    if(p.y < 0) p.y = canvas.height;
+    if(p.y > canvas.height) p.y = 0;
+
+    // Render the Star //
+    ctx.fillStyle = `hsl(${p.hue},90%,65%)`;
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
+    ctx.fill();
+});
 
     /* Resetting the Shape Mode */
     if(shapeMode){
