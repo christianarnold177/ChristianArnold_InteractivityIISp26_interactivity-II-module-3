@@ -55,9 +55,8 @@ body{
 .blob{
     position:fixed;
     border-radius:50%;
-    filter:blur(18px);
-    opacity:0.65;
-    mix-blend-mode: screen;
+    filter:blur(8px);
+    opacity:0.35;
     z-index:2;
     animation:floatBlob 18s infinite ease-in-out;
     border:3px soild rgba(255,255,255,0.08);
@@ -66,7 +65,12 @@ body{
 .blob1{
     width:650px;
     height:650px;
-    background:#ff4d6d;
+    background:radial-gradient
+    (circle,
+    #ff4d6d 20%,
+    #d63384 55%,
+    #7209b7 100%
+    );
     border-color:rgba(255,120,150,0.35);
     top:-100px;
     left:-100px;
@@ -75,7 +79,12 @@ body{
 .blob2{
     width:700px;
     height:700px;
-    background:#00d4ff;
+    background:radial-gradient(
+    circle,
+    #00d4ff 20%,
+    #0096c7 55%,
+    #023e8a 100%
+    );
     border-color:rgba(120,230,255,0.35);
     bottom:-150px;
     right:-100px;
@@ -85,7 +94,12 @@ body{
 .blob3{
     width:600px;
     height:600px;
-    background:#ffd60a;
+    background:radial-gradient(
+    circle,
+    #ffd60a 20%,
+    #ffb703 55%,
+    #fb8500 100%
+    );
     border-color:rgba(255,230,120,0.35);
     top:30%;
     left:50%;
@@ -95,7 +109,12 @@ body{
 .blob4{
     width:620px;
     height:620px;
-    background:#7b2cbf;
+    background:radial-gradient(
+    circle,
+    #9d4edd 20%,
+    #7b2cbf 55%,
+    #3c096c 100%    
+    );
     border-color:rgba(180,120,255,0.35);
     top:10%;
     right:20%;
@@ -105,7 +124,12 @@ body{
 .blob5{
     width:680px;
     height:680px;
-    background:#00ff88;
+    background:radial-gradient(
+    circle,
+    #00ff88 20%,
+    #2ec4b8 55%,
+    #006d77 100%
+    );
     border-color:rgba(120,255,190,0.35);
     bottom:15%;
     left:20%;
@@ -115,7 +139,12 @@ body{
 .blob6{
     width:640px;
     height:640px;
-    background:#4361ee;
+    background:radial-gradient(
+    circle,
+    #4361ee 20%,
+    #3a0ca3 55%,
+    #1d3557 100%
+    );
     border-color:rgba(120,160,255,0.35);
     top:55%;
     right:35%;
@@ -125,7 +154,12 @@ body{
 .blob7{
     width:660px;
     height:660px;
-    background:#ff00ff;
+    background:radial-gradient(
+    circle,
+    #ff00ff 20%,
+    #c77dff 55%,
+    #7209bf 100%
+    );
     border-color:rgba(255,120,255,0.35);
     top:15%;
     left:35%;
