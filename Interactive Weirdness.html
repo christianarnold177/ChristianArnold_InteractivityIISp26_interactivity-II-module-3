@@ -136,19 +136,18 @@ body{
     0%{
         transform:translate(0px,0px) scale(1);
     }
-
-    25%{
-        transform:translate(60px,-40px) scale(1.2);
+    20%{
+        transform:translate(80px,-50px) scale(1.2);
     }
-
-    50%{
-        transform:translate(-50px,50px) scale(0.9);
+    40%{
+        transform:translate(-60px,60px) scale(0.85);
     }
-
-    75%{
-        transform:translate(40px,70px) scale(1.15);
+    60%{
+        transform:translate(90px,40px) scale(1.15);
     }
-
+    80%{
+        transform:translate(-70px,-40px) scale(1.05);
+    }
     100%{
         transform:translate(0px,0px) scale(1);
     }
@@ -206,7 +205,7 @@ setInterval(() => {
 
 /* The Particles */
 const particles = [];
-const COUNT = 280;
+const COUNT = 150;
 
 function randomShape(){
     const shapes = [
@@ -400,7 +399,7 @@ function drawShape(p){
 
 /* The Animation Loop */
 function animate(){
-    ctx.fillStyle="rgba(15,15,26,0.18)";
+    ctx.fillStyle="rgba(10,10,25,0.08)";
     ctx.fillRect(0,0,canvas.width,canvas.height);
 
     time += 0.003;
