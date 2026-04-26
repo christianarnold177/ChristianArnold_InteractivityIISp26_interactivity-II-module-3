@@ -65,18 +65,28 @@ window.addEventListener("load", ()=>{
     music.play().catch(()=>{});
 });
 
+/* Mouse Field */
+let mouse = {x:0,y:0};
+
+window.addEventListener("mousemove",(e)=>{
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+});
+
 /* The Particles */
 const particles = [];
-const COUNT = 220;
+const COUNT = 230;
 
 for(let i=0;i<COUNT;i++){
     particles.push({
         x:Math.random()*canvas.width,
         y:Math.random()*canvas.height,
-        vx:0,
-        vy:0,
-        size:Math.random()*4+1.5,
-        hue:Math.random()*360
+        vx:(Math.random()-0.5)*0.3,
+        vy:(Math.random()-0.5)*0.3,
+        size:Math.random()*2.5+0.8,
+        hue:Math.random()*360,
+        tx:null,
+        ty:null
     });
 }
 
@@ -98,20 +108,47 @@ for(let i=0;i<7;i++){
     blobs.push({
         x:Math.random()*canvas.width,
         y:Math.random()*canvas.height,
-        vx:(Math.random()-0.5)*1.2,
-        vy:(Math.random()-0.5)*1.2,
+        vx:(Math.random()-0.5)*1,
+        vy:(Math.random()-0.5)*1,
         size:260 + Math.random()*80,
         color:blobColors[i]
+    });
+}
+
+/* Shape Mode */
+let shapeMode = false;
+let shapeTime = 0;
+
+const chaosBtn = document.getElementById("chaosBtn");
+
+chaosBtn.addEventListener("click",()=>{
+    shapeMode = true;
+    shapeTime = 0;
+
+    chaosBtn.textContent = "reshaping...";
+    generateSpiral();
+});
+
+function generateSpiral(){
+    const cx = canvas.width/2;
+    const cy = canvas.height/2;
+
+    particles.forEach((p,i)=>{
+        let a = i * 0.35;
+        let r = i * 2;
+
+        p.tx = cx + Math.cos(a)*r;
+        p.ty = cy + Math.sin(a)*r;
     });
 }
 
 /* The Animation */
 function animate(){
 
-    ctx.fillStyle="rgba(5,5,15,0.12)";
+    ctx.fillStyle="rgba(0,0,0,0.15)";
     ctx.fillRect(0,0,canvas.width,canvas.height);
 
-    /* The Blobs (Merging/Spliting) */
+    /* The Blobs (Living Behavior) */
     for(let i=0;i<blobs.length;i++){
         let b = blobs[i];
 
@@ -136,8 +173,8 @@ function animate(){
 
             // Spliting (Repel)
             if(dist < 120){
-                b.vx -= dx * 0.0025;
-                b.vy -= dy * 0.0025;
+                b.vx -= dx * 0.002;
+                b.vy -= dy * 0.002;
             }
         }
 
@@ -161,7 +198,6 @@ function animate(){
             b.x,b.y,b.size
         );
 
-        grad.addColorStop(0,b.color);
         grad.addColorStop(0.6,b.color);
         grad.addColorStop(1,"transparent");
 
@@ -173,11 +209,27 @@ function animate(){
 
     /* The Particles (Continued) */
     particles.forEach(p=>{
-        p.vx += (Math.random()-0.5)*0.05;
-        p.vy += (Math.random()-0.5)*0.05;
+        p.vx += (Math.random()-0.5)*0.02;
+        p.vy += (Math.random()-0.5)*0.02;
 
-        p.vx *= 0.96;
-        p.vy *= 0.96;
+        // Mouse Repulsion //
+        let dx = p.x - mouse.x;
+        let dy = p.y - mouse.y;
+        let dist = Math.sqrt(dx*dx + dy*dy);
+
+        if(dist < 120){
+            p.vx += dx * 0.01;
+            p.vy += dy * 0.01;
+        }
+
+        // Shape Attraction //
+        if(shapeMode){
+            p.vx += (p.tx - p.x)*0.02;
+            p.vy += (p.ty - p.y)*0.02;
+        }
+
+        p.vx *= 0.95;
+        p.vy *= 0.95;
 
         p.x += p.vx;
         p.y += p.vy;
@@ -192,6 +244,15 @@ function animate(){
         ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
         ctx.fill();
     });
+
+    /* Resetting the Shape Mode */
+    if(shapeMode){
+        shapeTime++;
+        if(shapeTime > 160){
+            shapeMode = false;
+            chaosBtn.textContent = "Don't Press the Button";
+        }
+    }
 
     requestAnimationFrame(animate);
 }
