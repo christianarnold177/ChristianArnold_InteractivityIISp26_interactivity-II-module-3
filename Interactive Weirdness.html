@@ -50,16 +50,18 @@ body{
 .blob{
     position:fixed;
     border-radius:50%;
-    filter:blur(70px);
+    filter:blur(35px);
     opacity:0.45;
     z-index:1;
     animation:floatBlob 18s infinite ease-in-out;
+    border:3px soild rgba(255,255,255,0.08);
 }
 
 .blob1{
     width:500px;
     height:500px;
     background:#ff4d6d;
+    border-color:rgba(255,120,150,0.35);
     top:-100px;
     left:-100px;
 }
@@ -68,6 +70,7 @@ body{
     width:550px;
     height:550px;
     background:#00d4ff;
+    border-color:rgba(120,230,255,0.35);
     bottom:-150px;
     right:-100px;
     animation-delay:2s;
@@ -77,6 +80,7 @@ body{
     width:450px;
     height:450px;
     background:#ffd60a;
+    border-color:rgba(255,230,120,0.35);
     top:30%;
     left:50%;
     animation-delay:4s;
@@ -86,6 +90,7 @@ body{
     width:480px;
     height:480px;
     background:#7b2cbf;
+    border-color:rgba(180,120,255,0.35);
     top:10%;
     right:20%;
     animation-delay:6s;
@@ -95,17 +100,51 @@ body{
     width:520px;
     height:520px;
     background:#00ff88;
+    border-color:rgba(120,255,190,0.35);
     bottom:15%;
     left:20%;
     animation-delay:8s;
 }
 
+.blob6{
+    width:460px;
+    height:460px;
+    background:#4361ee;
+    border-color:rgba(120,160,255,0.35);
+    top:55%;
+    right:35%;
+    animation-delay:10s;
+}
+
+.blob7{
+    width:490px;
+    height:490px;
+    background:#ff00ff;
+    border-color:rgba(255,120,255,0.35);
+    top:15%;
+    left:35%;
+    animation-delay:12s;
+}
+
 @keyframes floatBlob{
-    0%,100%{
-        transform:translate(0,0) scale(1);
+    0%{
+        transform:translate(0px,0px) scale(1);
     }
+
+    25%{
+        transform:translate(60px,-40px) scale(1.2);
+    }
+
     50%{
-        transform:translate(80px,-60px) scale(1.15);
+        transform:translate(-50px,50px) scale(0.9);
+    }
+
+    75%{
+        transform:translate(40px,70px) scale(1.15);
+    }
+
+    100%{
+        transform:translate(0px,0px) scale(1);
     }
 }
 </style>
@@ -122,6 +161,8 @@ body{
 <div class="blob blob3"></div>
 <div class="blob blob4"></div>
 <div class="blob blob5"></div>
+<div class="blob blob6"></div>
+<div class="blob blob7"></div>
 
 <canvas id="bg"></canvas>
 
