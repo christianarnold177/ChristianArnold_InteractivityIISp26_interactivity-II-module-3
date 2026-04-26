@@ -155,8 +155,7 @@ function animate(){
         if(b.y > canvas.height + 200) b.y = -200;
     }
 
-    /* =========================
-       Drawing the Blobs (Soft Cosmic Bodies) */
+    /* Drawing the Blobs (Soft Cosmic Bodies) */
     blobs.forEach(b=>{
         const grad = ctx.createRadialGradient(
             b.x,b.y,0,
