@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Echoes</title>
+
+<style>
+body{
+    margin:0;
+    overflow:hidden;
+    background:#0f0f1a;
+    font-family:Arial, sans-serif;
+}
+
+/* The Canvas */
+#bg{
+    position:fixed;
+    inset:0;
+    z-index:2;
+}
+
+/* The Chaos Button */
+#chaosBtn{
+    position:fixed;
+    top:30px;
+    right:30px;
+    z-index:10;
+
+    padding:14px 22px;
+    border:none;
+    border-radius:30px;
+
+    background:rgba(255,255,255,0.12);
+    color:white;
+    cursor:pointer;
+
+    backdrop-filter:blur(12px);
+    font-size:14px;
+    letter-spacing:1px;
+
+    transition:0.3s ease;
+}
+
+#chaosBtn:hover{
+    transform:scale(1.08) rotate(3deg);
+}
+
+/* The Blobs */
+.blob{
+    position:fixed;
+    border-radius:50%;
+    filter:blur(70px);
+    opacity:0.45;
+    z-index:1;
+    animation:floatBlob 18s infinite ease-in-out;
+}
+
+.blob1{
+    width:500px;
+    height:500px;
+    background:#ff4d6d;
+    top:-100px;
+    left:-100px;
+}
+
+.blob2{
+    width:550px;
+    height:550px;
+    background:#00d4ff;
+    bottom:-150px;
+    right:-100px;
+    animation-delay:2s;
+}
+
+.blob3{
+    width:450px;
+    height:450px;
+    background:#ffd60a;
+    top:30%;
+    left:50%;
+    animation-delay:4s;
+}
+
+.blob4{
+    width:480px;
+    height:480px;
+    background:#7b2cbf;
+    top:10%;
+    right:20%;
+    animation-delay:6s;
+}
+
+.blob5{
+    width:520px;
+    height:520px;
+    background:#00ff88;
+    bottom:15%;
+    left:20%;
+    animation-delay:8s;
+}
+
+@keyframes floatBlob{
+    0%,100%{
+        transform:translate(0,0) scale(1);
+    }
+    50%{
+        transform:translate(80px,-60px) scale(1.15);
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- The Weird Button -->
+<button id="chaosBtn">Don't Press this Button</button>
+
+<!-- The Background Blobs -->
+<div class="blob blob1"></div>
+<div class="blob blob2"></div>
+<div class="blob blob3"></div>
+<div class="blob blob4"></div>
+<div class="blob blob5"></div>
+
+<canvas id="bg"></canvas>
+
+<!-- Music -->
+<audio id="music" loop>
+    <source src="snowfall.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+/* The Canvas */
+const canvas = document.getElementById("bg");
+const ctx = canvas.getContext("2d");
+
+function resize(){
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener("resize", resize);
+
+/* The Audio */
+const music = document.getElementById("music");
+let audioEnergy = 1;
+
+document.body.addEventListener("click", () => {
+    music.play().catch(()=>{});
+}, {once:true});
+
+setInterval(()=>{
+    audioEnergy = 0.8 + Math.random()*0.6;
+},300);
+
+/* The Particles */
+const particles = [];
+const COUNT = 140;
+
+function randomShape(){
+    const shapes = [
+        "circle",
+        "square",
+        "triangle",
+        "diamond",
+        "star",
+        "line"
+    ];
+    return shapes[Math.floor(Math.random()*shapes.length)];
+}
+
+for(let i=0;i<COUNT;i++){
+    particles.push({
+        x:Math.random()*canvas.width,
+        y:Math.random()*canvas.height,
+        vx:0,
+        vy:0,
+        size:Math.random()*6+2,
+        hue:Math.random()*360,
+        shape:randomShape(),
+        tx:null,
+        ty:null
+    });
+}
+
+/* The Flow Field */
+let time = 0;
+
+function flowAngle(x,y){
+    return Math.sin(x*0.002 + time) +
+           Math.cos(y*0.002 + time);
+}
+
+/* Patterns */
+let patternMode = false;
+let patternTime = 0;
+
+function generateSpiral(){
+    const cx = canvas.width/2;
+    const cy = canvas.height/2;
+
+    particles.forEach((p,i)=>{
+        let angle = i*0.35;
+        let radius = i*2;
+
+        p.tx = cx + Math.cos(angle)*radius;
+        p.ty = cy + Math.sin(angle)*radius;
+    });
+}
+
+function generateSmiley(){
+    const cx = canvas.width/2;
+    const cy = canvas.height/2;
+
+    particles.forEach((p,i)=>{
+        if(i < particles.length*0.6){
+            let angle = (i/(particles.length*0.6))*Math.PI*2;
+            p.tx = cx + Math.cos(angle)*120;
+            p.ty = cy + Math.sin(angle)*120;
+        } else {
+            p.tx = cx + (Math.random()-0.5)*120;
+            p.ty = cy + (Math.random()-0.5)*120;
+        }
+    });
+}
+
+/* Canvas Click Burst */
+canvas.addEventListener("click",(e)=>{
+    const mx = e.clientX;
+    const my = e.clientY;
+
+    particles.forEach(p=>{
+        let dx = p.x-mx;
+        let dy = p.y-my;
+        let dist = Math.sqrt(dx*dx+dy*dy);
+
+        if(dist < 150){
+            p.vx += dx*0.08;
+            p.vy += dy*0.08;
+            p.hue += 40;
+            p.shape = randomShape();
+        }
+    });
+});
+
+/* A Cursor Brush */
+canvas.addEventListener("mousemove",(e)=>{
+    const mx = e.clientX;
+    const my = e.clientY;
+
+    particles.forEach(p=>{
+        let dx = p.x-mx;
+        let dy = p.y-my;
+        let dist = Math.sqrt(dx*dx+dy*dy);
+
+        if(dist < 100){
+            p.vx += dx*0.02;
+            p.vy += dy*0.02;
+            p.hue += 4;
+        }
+    });
+});
+
+/* Some Weird Button Logic */
+const chaosBtn = document.getElementById("chaosBtn");
+let buttonClicks = 0;
+
+chaosBtn.addEventListener("click", () => {
+    buttonClicks++;
+
+    particles.forEach(p=>{
+        p.vx += (Math.random()-0.5)*10;
+        p.vy += (Math.random()-0.5)*10;
+        p.hue += Math.random()*120;
+        p.shape = randomShape();
+    });
+
+    patternMode = true;
+    patternTime = 0;
+
+    Math.random() < 0.5
+        ? generateSpiral()
+        : generateSmiley();
+
+    if(buttonClicks === 2){
+        chaosBtn.textContent = "why did you press the button?";
+    }
+
+    if(buttonClicks === 4){
+        chaosBtn.textContent = "Please stop.";
+        chaosBtn.style.transform = "rotate(15deg)";
+    }
+
+    if(buttonClicks >= 6){
+        chaosBtn.textContent = "Come and catch me";
+
+        chaosBtn.style.top =
+            Math.random() * (window.innerHeight * 0.7) + "px";
+
+        chaosBtn.style.left =
+            Math.random() * (window.innerWidth * 0.7) + "px";
+    }
+});
+
+/* Drawing the Shapes */
+function drawShape(p){
+    ctx.beginPath();
+
+    if(p.shape==="circle"){
+        ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
+    }
+
+    else if(p.shape==="square"){
+        ctx.rect(p.x-p.size/2,p.y-p.size/2,p.size,p.size);
+    }
+
+    else if(p.shape==="triangle"){
+        ctx.moveTo(p.x,p.y-p.size);
+        ctx.lineTo(p.x-p.size,p.y+p.size);
+        ctx.lineTo(p.x+p.size,p.y+p.size);
+        ctx.closePath();
+    }
+
+    else if(p.shape==="diamond"){
+        ctx.moveTo(p.x,p.y-p.size);
+        ctx.lineTo(p.x-p.size,p.y);
+        ctx.lineTo(p.x,p.y+p.size);
+        ctx.lineTo(p.x+p.size,p.y);
+        ctx.closePath();
+    }
+
+    else if(p.shape==="line"){
+        ctx.moveTo(p.x,p.y);
+        ctx.lineTo(p.x+p.size*2,p.y);
+    }
+
+    else if(p.shape==="star"){
+        for(let i=0;i<5;i++){
+            let a = i*(Math.PI*2/5);
+            let x = p.x + Math.cos(a)*p.size;
+            let y = p.y + Math.sin(a)*p.size;
+            ctx.lineTo(x,y);
+        }
+        ctx.closePath();
+    }
+
+    ctx.fill();
+}
+
+/* The Animation Loop */
+function animate(){
+    ctx.fillStyle="rgba(15,15,26,0.18)";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+
+    time += 0.003;
+
+    if(!patternMode && Math.random() < 0.002){
+        patternMode = true;
+        patternTime = 0;
+
+        Math.random() < 0.5
+            ? generateSpiral()
+            : generateSmiley();
+    }
+
+    particles.forEach(p=>{
+
+        let angle = flowAngle(p.x,p.y);
+
+        p.vx += Math.cos(angle)*0.05*audioEnergy;
+        p.vy += Math.sin(angle)*0.05*audioEnergy;
+
+        if(patternMode){
+            p.vx += (p.tx-p.x)*0.02;
+            p.vy += (p.ty-p.y)*0.02;
+        }
+
+        p.vx *= 0.96;
+        p.vy *= 0.96;
+
+        p.x += p.vx;
+        p.y += p.vy;
+
+        if(p.x < 0) p.x = canvas.width;
+        if(p.x > canvas.width) p.x = 0;
+        if(p.y < 0) p.y = canvas.height;
+        if(p.y > canvas.height) p.y = 0;
+
+        ctx.fillStyle = `hsl(${p.hue},90%,65%)`;
+        drawShape(p);
+    });
+
+    if(patternMode){
+        patternTime++;
+        if(patternTime > 180){
+            patternMode = false;
+        }
+    }
+
+    requestAnimationFrame(animate);
+}
+
+animate();
+</script>
+
+</body>
+</html>
