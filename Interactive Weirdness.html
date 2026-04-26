@@ -208,9 +208,7 @@ let audioEnergy = 1;
 
 window.addEventListener("load", () => {
     music.volume = 0.6;
-    music.play().catch(() => {
-        console.log("Autoplay blocked by browser until interaction.");
-    });
+    music.play().catch(()=>{});
 });
 
 setInterval(() => {
@@ -248,7 +246,27 @@ for(let i=0;i<COUNT;i++){
 }
 
 /* The Blobs (Living System) */
+const blobs = [
+    {x:100,y:200,vx:0.3,vy:0.1,size:260,color:"#ff4d6d"},
+    {x:600,y:300,vx:-0.2,vy:0.15,size:300,color:"#00d4ff"},
+    {x:900,y:500,vx:0.25,vy:-0.1,size:240,color:"#ffd60a"},
+    {x:300,y:700,vx:-0.15,vy:0.2,size:270,color:"#7b2cbf"},
+    {x:1100,y:250,vx:0.2,vy:0.25,size:290,color:"#00ff88"},
+    {x:200,y:400,vx:-0.25,vy:-0.15,size:250,color:"#4361ee"},
+    {x:800,y:150,vx:0.15,vy:0.2,size:280,color:"#ff00ff"}
+];
 
+// Spawing Blobs //
+for(let i=0;i<7;i++){
+    blobs.push({
+        x:Math.random()*canvas.width,
+        y:Math.random()*canvas.height,
+        vx:(Math.random()-0.5)*1.2,
+        vy:(Math.random()-0.5)*1.2,
+        size:260 + Math.random()*80,
+        color:blobColors[i]
+    });
+}
 
 /* The Flow Field */
 let time = 0;
