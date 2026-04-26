@@ -9,161 +9,28 @@
 body{
     margin:0;
     overflow:hidden;
-    background:radial-gradient(
-        circle at center,
-        #1b1b3a 0%,
-        #0a0a18 45%,
-        #000000 100%
-    );
-    font-family:Arial, sans-serif;
+    background:#0a0a14;
 }
 
 /* The Canvas */
 #bg{
     position:fixed;
     inset:0;
-    z-index:1.8;
+    z-index:2;
 }
 
-/* The Chaos Button */
+/* Optional Button */
 #chaosBtn{
     position:fixed;
-    top:30px;
-    right:30px;
+    top:20px;
+    right:20px;
     z-index:10;
-
-    padding:14px 22px;
+    padding:10px 16px;
+    border-radius:20px;
     border:none;
-    border-radius:30px;
-
-    background:rgba(255,255,255,0.12);
+    background:rgba(255,255,255,0.1);
     color:white;
     cursor:pointer;
-
-    backdrop-filter:blur(12px);
-    font-size:14px;
-    letter-spacing:1px;
-
-    transition:0.3s ease;
-}
-
-#chaosBtn:hover{
-    transform:scale(1.08) rotate(3deg);
-}
-
-/* The Blobs */
-.blob{
-    position:fixed;
-    border-radius:50%;
-    filter:blur(8px);
-    opacity:0.35;
-    z-index:2;
-    border:3px soild rgba(255,255,255,0.08);
-    pointer-events:none;
-}
-
-.blob1{
-    width:530px;
-    height:530px;
-    background:radial-gradient
-    (circle,
-    #ff4d6d 20%,
-    #d63384 55%,
-    #7209b7 100%
-    );
-    border-color:rgba(255,120,150,0.35);
-    top:-100px;
-    left:-100px;
-}
-
-.blob2{
-    width:580px;
-    height:580px;
-    background:radial-gradient(
-    circle,
-    #00d4ff 20%,
-    #0096c7 55%,
-    #023e8a 100%
-    );
-    border-color:rgba(120,230,255,0.35);
-    bottom:-150px;
-    right:-100px;
-    animation-delay:2s;
-}
-
-.blob3{
-    width:480px;
-    height:480px;
-    background:radial-gradient(
-    circle,
-    #ffd60a 20%,
-    #ffb703 55%,
-    #fb8500 100%
-    );
-    border-color:rgba(255,230,120,0.35);
-    top:30%;
-    left:50%;
-    animation-delay:4s;
-}
-
-.blob4{
-    width:500px;
-    height:500px;
-    background:radial-gradient(
-    circle,
-    #9d4edd 20%,
-    #7b2cbf 55%,
-    #3c096c 100%    
-    );
-    border-color:rgba(180,120,255,0.35);
-    top:10%;
-    right:20%;
-    animation-delay:6s;
-}
-
-.blob5{
-    width:560px;
-    height:560px;
-    background:radial-gradient(
-    circle,
-    #00ff88 20%,
-    #2ec4b8 55%,
-    #006d77 100%
-    );
-    border-color:rgba(120,255,190,0.35);
-    bottom:15%;
-    left:20%;
-    animation-delay:8s;
-}
-
-.blob6{
-    width:520px;
-    height:520px;
-    background:radial-gradient(
-    circle,
-    #4361ee 20%,
-    #3a0ca3 55%,
-    #1d3557 100%
-    );
-    border-color:rgba(120,160,255,0.35);
-    top:55%;
-    right:35%;
-    animation-delay:10s;
-}
-
-.blob7{
-    width:540px;
-    height:540px;
-    background:radial-gradient(
-    circle,
-    #ff00ff 20%,
-    #c77dff 55%,
-    #7209bf 100%
-    );
-    border-color:rgba(255,120,255,0.35);
-    top:15%;
-    left:35%;
-    animation-delay:12s;
 }
 
 </style>
@@ -171,21 +38,10 @@ body{
 
 <body>
 
-<!-- The Weird Button -->
-<button id="chaosBtn">Don't Press this Button</button>
-
-<!-- The Background Blobs -->
-<div class="blob blob1"></div>
-<div class="blob blob2"></div>
-<div class="blob blob3"></div>
-<div class="blob blob4"></div>
-<div class="blob blob5"></div>
-<div class="blob blob6"></div>
-<div class="blob blob7"></div>
+<button id="chaosBtn">Don't Press the Button</button>
 
 <canvas id="bg"></canvas>
 
-<!-- Music -->
 <audio id="music" loop>
     <source src="snowfall.mp3" type="audio/mpeg">
 </audio>
@@ -202,34 +58,17 @@ function resize(){
 resize();
 window.addEventListener("resize", resize);
 
-/* The Audio */
+/* Music */
 const music = document.getElementById("music");
-let audioEnergy = 1;
 
-window.addEventListener("load", () => {
+window.addEventListener("load", ()=>{
     music.volume = 0.6;
     music.play().catch(()=>{});
 });
 
-setInterval(() => {
-    audioEnergy = 0.8 + Math.random() * 0.6;
-}, 300);
-
 /* The Particles */
 const particles = [];
 const COUNT = 220;
-
-function randomShape(){
-    const shapes = [
-        "circle",
-        "square",
-        "triangle",
-        "diamond",
-        "star",
-        "line"
-    ];
-    return shapes[Math.floor(Math.random()*shapes.length)];
-}
 
 for(let i=0;i<COUNT;i++){
     particles.push({
@@ -237,26 +76,25 @@ for(let i=0;i<COUNT;i++){
         y:Math.random()*canvas.height,
         vx:0,
         vy:0,
-        size:Math.random()*6+2,
-        hue:Math.random()*360,
-        shape:randomShape(),
-        tx:null,
-        ty:null
+        size:Math.random()*4+1.5,
+        hue:Math.random()*360
     });
 }
 
 /* The Blobs (Living System) */
-const blobs = [
-    {x:100,y:200,vx:0.3,vy:0.1,size:260,color:"#ff4d6d"},
-    {x:600,y:300,vx:-0.2,vy:0.15,size:300,color:"#00d4ff"},
-    {x:900,y:500,vx:0.25,vy:-0.1,size:240,color:"#ffd60a"},
-    {x:300,y:700,vx:-0.15,vy:0.2,size:270,color:"#7b2cbf"},
-    {x:1100,y:250,vx:0.2,vy:0.25,size:290,color:"#00ff88"},
-    {x:200,y:400,vx:-0.25,vy:-0.15,size:250,color:"#4361ee"},
-    {x:800,y:150,vx:0.15,vy:0.2,size:280,color:"#ff00ff"}
+const blobs = [];
+
+const blobColors = [
+    "#ff4d6d",
+    "#00d4ff",
+    "#ffd60a",
+    "#7b2cbf",
+    "#00ff88",
+    "#4361ee",
+    "#ff00ff"
 ];
 
-// Spawing Blobs //
+// Spawning Blobs //
 for(let i=0;i<7;i++){
     blobs.push({
         x:Math.random()*canvas.width,
@@ -268,197 +106,77 @@ for(let i=0;i<7;i++){
     });
 }
 
-/* The Flow Field */
-let time = 0;
-
-function flowAngle(x,y){
-    return Math.sin(x*0.002 + time) +
-           Math.cos(y*0.002 + time);
-}
-
-/* Patterns */
-let patternMode = false;
-let patternTime = 0;
-
-function generateSpiral(){
-    const cx = canvas.width/2;
-    const cy = canvas.height/2;
-
-    particles.forEach((p,i)=>{
-        let angle = i*0.35;
-        let radius = i*2;
-
-        p.tx = cx + Math.cos(angle)*radius;
-        p.ty = cy + Math.sin(angle)*radius;
-    });
-}
-
-function generateSmiley(){
-    const cx = canvas.width/2;
-    const cy = canvas.height/2;
-
-    particles.forEach((p,i)=>{
-        if(i < particles.length*0.6){
-            let angle = (i/(particles.length*0.6))*Math.PI*2;
-            p.tx = cx + Math.cos(angle)*120;
-            p.ty = cy + Math.sin(angle)*120;
-        } else {
-            p.tx = cx + (Math.random()-0.5)*120;
-            p.ty = cy + (Math.random()-0.5)*120;
-        }
-    });
-}
-
-/* Canvas Click Burst */
-canvas.addEventListener("click",(e)=>{
-    const mx = e.clientX;
-    const my = e.clientY;
-
-    particles.forEach(p=>{
-        let dx = p.x-mx;
-        let dy = p.y-my;
-        let dist = Math.sqrt(dx*dx+dy*dy);
-
-        if(dist < 150){
-            p.vx += dx*0.08;
-            p.vy += dy*0.08;
-            p.hue += 40;
-            p.shape = randomShape();
-        }
-    });
-});
-
-/* A Cursor Brush */
-canvas.addEventListener("mousemove",(e)=>{
-    const mx = e.clientX;
-    const my = e.clientY;
-
-    particles.forEach(p=>{
-        let dx = p.x-mx;
-        let dy = p.y-my;
-        let dist = Math.sqrt(dx*dx+dy*dy);
-
-        if(dist < 100){
-            p.vx += dx*0.02;
-            p.vy += dy*0.02;
-            p.hue += 4;
-        }
-    });
-});
-
-/* Some Weird Button Logic */
-const chaosBtn = document.getElementById("chaosBtn");
-let buttonClicks = 0;
-
-chaosBtn.addEventListener("click", () => {
-    buttonClicks++;
-
-    particles.forEach(p=>{
-        p.vx += (Math.random()-0.5)*10;
-        p.vy += (Math.random()-0.5)*10;
-        p.hue += Math.random()*120;
-        p.shape = randomShape();
-    });
-
-    patternMode = true;
-    patternTime = 0;
-
-    Math.random() < 0.5
-        ? generateSpiral()
-        : generateSmiley();
-
-    if(buttonClicks === 2){
-        chaosBtn.textContent = "why did you press the button?";
-    }
-
-    if(buttonClicks === 4){
-        chaosBtn.textContent = "Please stop.";
-        chaosBtn.style.transform = "rotate(15deg)";
-    }
-
-    if(buttonClicks >= 6){
-        chaosBtn.textContent = "Come and catch me";
-
-        chaosBtn.style.top =
-            Math.random() * (window.innerHeight * 0.7) + "px";
-
-        chaosBtn.style.left =
-            Math.random() * (window.innerWidth * 0.7) + "px";
-    }
-});
-
-/* Drawing the Shapes */
-function drawShape(p){
-    ctx.beginPath();
-
-    if(p.shape==="circle"){
-        ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
-    }
-
-    else if(p.shape==="square"){
-        ctx.rect(p.x-p.size/2,p.y-p.size/2,p.size,p.size);
-    }
-
-    else if(p.shape==="triangle"){
-        ctx.moveTo(p.x,p.y-p.size);
-        ctx.lineTo(p.x-p.size,p.y+p.size);
-        ctx.lineTo(p.x+p.size,p.y+p.size);
-        ctx.closePath();
-    }
-
-    else if(p.shape==="diamond"){
-        ctx.moveTo(p.x,p.y-p.size);
-        ctx.lineTo(p.x-p.size,p.y);
-        ctx.lineTo(p.x,p.y+p.size);
-        ctx.lineTo(p.x+p.size,p.y);
-        ctx.closePath();
-    }
-
-    else if(p.shape==="line"){
-        ctx.moveTo(p.x,p.y);
-        ctx.lineTo(p.x+p.size*2,p.y);
-    }
-
-    else if(p.shape==="star"){
-        for(let i=0;i<5;i++){
-            let a = i*(Math.PI*2/5);
-            let x = p.x + Math.cos(a)*p.size;
-            let y = p.y + Math.sin(a)*p.size;
-            ctx.lineTo(x,y);
-        }
-        ctx.closePath();
-    }
-
-    ctx.fill();
-}
-
-/* The Animation Loop */
+/* The Animation */
 function animate(){
-    ctx.fillStyle="rgba(10,10,25,0.08)";
+
+    ctx.fillStyle="rgba(5,5,15,0.12)";
     ctx.fillRect(0,0,canvas.width,canvas.height);
 
-    time += 0.003;
+    /* The Blobs (Merging/Spliting) */
+    for(let i=0;i<blobs.length;i++){
+        let b = blobs[i];
 
-    if(!patternMode && Math.random() < 0.002){
-        patternMode = true;
-        patternTime = 0;
+        // Drifting //
+        b.vx += (Math.random()-0.5)*0.02;
+        b.vy += (Math.random()-0.5)*0.02;
 
-        Math.random() < 0.5
-            ? generateSpiral()
-            : generateSmiley();
+        for(let j=0;j<blobs.length;j++){
+            if(i===j) continue;
+
+            let o = blobs[j];
+
+            let dx = o.x - b.x;
+            let dy = o.y - b.y;
+            let dist = Math.sqrt(dx*dx + dy*dy);
+
+            // Merging (Attract)
+            if(dist < 450 && dist > 120){
+                b.vx += dx * 0.0004;
+                b.vy += dy * 0.0004;
+            }
+
+            // Spliting (Repel)
+            if(dist < 120){
+                b.vx -= dx * 0.0025;
+                b.vy -= dy * 0.0025;
+            }
+        }
+
+        b.vx *= 0.97;
+        b.vy *= 0.97;
+
+        b.x += b.vx;
+        b.y += b.vy;
+
+        // Wrapping //
+        if(b.x < -200) b.x = canvas.width + 200;
+        if(b.x > canvas.width + 200) b.x = -200;
+        if(b.y < -200) b.y = canvas.height + 200;
+        if(b.y > canvas.height + 200) b.y = -200;
     }
 
+    /* =========================
+       Drawing the Blobs (Soft Cosmic Bodies) */
+    blobs.forEach(b=>{
+        const grad = ctx.createRadialGradient(
+            b.x,b.y,0,
+            b.x,b.y,b.size
+        );
+
+        grad.addColorStop(0,b.color);
+        grad.addColorStop(0.6,b.color);
+        grad.addColorStop(1,"transparent");
+
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.arc(b.x,b.y,b.size,0,Math.PI*2);
+        ctx.fill();
+    });
+
+    /* The Particles (Continued) */
     particles.forEach(p=>{
-
-        let angle = flowAngle(p.x,p.y);
-
-        p.vx += Math.cos(angle)*0.05*audioEnergy;
-        p.vy += Math.sin(angle)*0.05*audioEnergy;
-
-        if(patternMode){
-            p.vx += (p.tx-p.x)*0.02;
-            p.vy += (p.ty-p.y)*0.02;
-        }
+        p.vx += (Math.random()-0.5)*0.05;
+        p.vy += (Math.random()-0.5)*0.05;
 
         p.vx *= 0.96;
         p.vy *= 0.96;
@@ -466,21 +184,16 @@ function animate(){
         p.x += p.vx;
         p.y += p.vy;
 
-        if(p.x < 0) p.x = canvas.width;
-        if(p.x > canvas.width) p.x = 0;
-        if(p.y < 0) p.y = canvas.height;
-        if(p.y > canvas.height) p.y = 0;
+        if(p.x<0) p.x=canvas.width;
+        if(p.x>canvas.width) p.x=0;
+        if(p.y<0) p.y=canvas.height;
+        if(p.y>canvas.height) p.y=0;
 
-        ctx.fillStyle = `hsl(${p.hue},90%,65%)`;
-        drawShape(p);
+        ctx.fillStyle = `hsl(${p.hue},90%,60%)`;
+        ctx.beginPath();
+        ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
+        ctx.fill();
     });
-
-    if(patternMode){
-        patternTime++;
-        if(patternTime > 180){
-            patternMode = false;
-        }
-    }
 
     requestAnimationFrame(animate);
 }
