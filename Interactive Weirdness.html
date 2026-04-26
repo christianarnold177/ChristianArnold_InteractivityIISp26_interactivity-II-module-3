@@ -192,17 +192,11 @@ window.addEventListener("resize", resize);
 const music = document.getElementById("music");
 let audioEnergy = 1;
 
-document.body.addEventListener("click", () => {
-    music.play().catch(()=>{});
-}, {once:true});
 
-setInterval(()=>{
-    audioEnergy = 0.8 + Math.random()*0.6;
-},300);
 
 /* The Particles */
 const particles = [];
-const COUNT = 140;
+const COUNT = 280;
 
 function randomShape(){
     const shapes = [
