@@ -67,6 +67,7 @@ window.addEventListener("load", ()=>{
 
 /* Mouse Field */
 let mouse = {x:0,y:0};
+let time = 0;
 
 window.addEventListener("mousemove",(e)=>{
     mouse.x = e.clientX;
@@ -144,6 +145,8 @@ function generateSpiral(){
 
 /* The Animation */
 function animate(){
+
+    time += 0.01;
 
     ctx.fillStyle="rgba(0,0,0,0.15)";
     ctx.fillRect(0,0,canvas.width,canvas.height);
