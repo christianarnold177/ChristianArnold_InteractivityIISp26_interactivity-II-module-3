@@ -131,6 +131,128 @@ for(let i=0;i<COUNT;i++){
         hue:Math.random()*360
     });
 }
+
+/* The Animation */
+function animate(){
+    time += 0.01;
+
+    ctx.fillStyle="rgba(0,0,0,0.2)";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+
+    /* The Blobs */
+    blobs.forEach(b=>{
+
+        // Movement Depending on State //
+        let speed = state === "active" ? 0.05 : 0.02;
+
+        b.vx += (Math.random()-0.5)*speed;
+        b.vy += (Math.random()-0.5)*speed;
+
+        // Merging/Spliting //
+        blobs.forEach(o=>{
+            if(o===b) return;
+
+            let dx=o.x-b.x;
+            let dy=o.y-b.y;
+            let d=Math.sqrt(dx*dx+dy*dy);
+
+            if(d<300 && state!=="collapse"){
+                b.vx+=dx*0.0003;
+                b.vy+=dy*0.0003;
+            }
+
+            if(d<100){
+                b.vx-=dx*0.002;
+                b.vy-=dy*0.002;
+            }
+        });
+
+        b.vx*=0.97;
+        b.vy*=0.97;
+
+        b.x+=b.vx;
+        b.y+=b.vy;
+
+        // Wrapping //
+        if(b.x<0) b.x=canvas.width;
+        if(b.x>canvas.width) b.x=0;
+        if(b.y<0) b.y=canvas.height;
+        if(b.y>canvas.height) b.y=0;
+
+        const g=ctx.createRadialGradient(b.x,b.y,0,b.x,b.y,b.size);
+        g.addColorStop(0,`hsl(${b.hue},80%,60%)`);
+        g.addColorStop(1,"transparent");
+
+        ctx.fillStyle=g;
+        ctx.beginPath();
+        ctx.arc(b.x,b.y,b.size,0,Math.PI*2);
+        ctx.fill();
+    });
+
+    /* Particles */
+    particles.forEach(p=>{
+
+        let flowX = Math.sin(time)*0.1;
+        let flowY = Math.cos(time)*0.1;
+
+        p.vx += flowX;
+        p.vy += flowY;
+
+        // Mouse Repel (only during active state)
+        if(state==="active"){
+            let dx=p.x-mouse.x;
+            let dy=p.y-mouse.y;
+            let d=Math.sqrt(dx*dx+dy*dy);
+
+            if(d<120){
+                p.vx+=dx*0.01;
+                p.vy+=dy*0.01;
+            }
+        }
+
+        // Collapse Behavior //
+        if(state==="collapse"){
+            blobs.forEach(b=>{
+                let dx=b.x-p.x;
+                let dy=b.y-p.y;
+                let d=Math.sqrt(dx*dx+dy*dy);
+
+                if(d<200){
+                    p.vx+=dx*0.003;
+                    p.vy+=dy*0.003;
+                }
+            });
+        }
+
+        // Rebirth (Explosion) //
+        if(state==="rebirth"){
+           p.vx += (Math.random()-0.5)*0.3;
+           p.vy += (Math.random()-0.5)*0.3; 
+        }
+
+        p.vx*=0.95;
+        p.vy*=0.95;
+
+        p.x+=p.vx;
+        p.y+=p.vy;
+
+        if(p.x<0) p.x=canvas.width;
+        if(p.x>canvas.width) p.x=0;
+        if(p.y<0) p.y=canvas.height;
+        if(p.y>canvas.height) p.y=0;
+
+        ctx.fillStyle=`hsl(${p.hue},90%,65%)`;
+        ctx.beginPath();
+        ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
+        ctx.fill();
+    });
+
+    requestAnimationFrame(animate);
+}
+
+setState("calm");
+animate();
 </script>
+
 </body>
 </html>
