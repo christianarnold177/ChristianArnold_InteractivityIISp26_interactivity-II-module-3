@@ -1,9 +1,10 @@
-<!DOCTYPE Html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewpoint" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Echoes</title>
+
 <style>
 body{
     margin:0;
@@ -13,14 +14,14 @@ body{
     color:white;
 }
 
-/* The Canvas */
+/* Canvas */
 #bg{
     position:fixed;
     inset:0;
     z-index:1;
 }
 
-/* The Button Panel */
+/* Buttons */
 #controls{
     position:fixed;
     top:20px;
@@ -39,7 +40,7 @@ button{
     cursor:pointer;
 }
 
-/* The Message */
+/* Message */
 #message{
     position:fixed;
     bottom:30px;
@@ -53,6 +54,7 @@ button{
 }
 </style>
 </head>
+
 <body>
 
 <div id="controls">
@@ -71,8 +73,9 @@ button{
 </audio>
 
 <script>
+
 /* The Canvas */
-const canvas = document.getElementBYId("bg");
+const canvas = document.getElementById("bg");
 const ctx = canvas.getContext("2d");
 
 function resize(){
@@ -82,10 +85,9 @@ function resize(){
 resize();
 window.addEventListener("resize", resize);
 
-/* The Audio */
+/* Fixing the Audio */
 const music = document.getElementById("music");
 
-// Autoplay Fallback //
 document.addEventListener("click", ()=>{
     music.muted = false;
     music.play().catch(()=>{});
@@ -95,10 +97,10 @@ document.addEventListener("click", ()=>{
 let state = "calm";
 
 const messages = {
-    calm: "Everything drifts. Nothing demands your attention.",
-    active: "Motion responds. The system notices you.",
-    collapse: "Everything pulls inward. Structure breaks.",
-    rebirth: "Scattered again. Nothing stays fixed."
+    calm: "everything drifts. nothing demands your attention.",
+    active: "motion responds. the system notices you.",
+    collapse: "everything pulls inward. structure breaks.",
+    rebirth: "scattered again. nothing stays fixed."
 };
 
 function setState(newState){
@@ -106,7 +108,7 @@ function setState(newState){
     document.getElementById("message").textContent = messages[state];
 }
 
-/* The Mouse */
+/* Mouse */
 let mouse = {x:0,y:0};
 
 window.addEventListener("mousemove",(e)=>{
@@ -114,7 +116,7 @@ window.addEventListener("mousemove",(e)=>{
     mouse.y = e.clientY;
 });
 
-/* The Time */
+/* Time */
 let time = 0;
 
 /* The Particles */
@@ -132,23 +134,36 @@ for(let i=0;i<COUNT;i++){
     });
 }
 
-/* The Animation */
+/* The Blobs */
+const blobs = [];
+
+for(let i=0;i<6;i++){
+    blobs.push({
+        x:Math.random()*canvas.width,
+        y:Math.random()*canvas.height,
+        vx:(Math.random()-0.5),
+        vy:(Math.random()-0.5),
+        size:260 + Math.random()*60,
+        hue:Math.random()*360
+    });
+}
+
+/* Animation */
 function animate(){
-    time += 0.01;
+
+    time += 0.01; // ✅ FIX ADDED
 
     ctx.fillStyle="rgba(0,0,0,0.2)";
     ctx.fillRect(0,0,canvas.width,canvas.height);
 
-    /* The Blobs */
+    /* Blobs */
     blobs.forEach(b=>{
 
-        // Movement Depending on State //
         let speed = state === "active" ? 0.05 : 0.02;
 
         b.vx += (Math.random()-0.5)*speed;
         b.vy += (Math.random()-0.5)*speed;
 
-        // Merging/Spliting //
         blobs.forEach(o=>{
             if(o===b) return;
 
@@ -173,7 +188,6 @@ function animate(){
         b.x+=b.vx;
         b.y+=b.vy;
 
-        // Wrapping //
         if(b.x<0) b.x=canvas.width;
         if(b.x>canvas.width) b.x=0;
         if(b.y<0) b.y=canvas.height;
@@ -198,7 +212,6 @@ function animate(){
         p.vx += flowX;
         p.vy += flowY;
 
-        // Mouse Repel (only during active state)
         if(state==="active"){
             let dx=p.x-mouse.x;
             let dy=p.y-mouse.y;
@@ -210,7 +223,6 @@ function animate(){
             }
         }
 
-        // Collapse Behavior //
         if(state==="collapse"){
             blobs.forEach(b=>{
                 let dx=b.x-p.x;
@@ -224,10 +236,9 @@ function animate(){
             });
         }
 
-        // Rebirth (Explosion) //
         if(state==="rebirth"){
-           p.vx += (Math.random()-0.5)*0.3;
-           p.vy += (Math.random()-0.5)*0.3; 
+            p.vx += (Math.random()-0.5)*0.3;
+            p.vy += (Math.random()-0.5)*0.3;
         }
 
         p.vx*=0.95;
@@ -250,8 +261,12 @@ function animate(){
     requestAnimationFrame(animate);
 }
 
-setState("calm");
-animate();
+/* Safe Start */
+window.onload = () => {
+    setState("calm");
+    animate();
+};
+
 </script>
 
 </body>
