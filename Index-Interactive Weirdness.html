@@ -18,7 +18,7 @@ body{
 #bg{
     position:fixed;
     inset:0;
-    z-index:1;
+    z-index:0;
 }
 
 /* Buttons */
@@ -97,10 +97,10 @@ document.addEventListener("click", ()=>{
 let state = "calm";
 
 const messages = {
-    calm: "everything drifts. nothing demands your attention.",
-    active: "motion responds. the system notices you.",
-    collapse: "everything pulls inward. structure breaks.",
-    rebirth: "scattered again. nothing stays fixed."
+    calm: "Everything drifts. Nothing demands your attention.",
+    active: "Motion responds. The system notices you.",
+    collapse: "Everything pulls inward. Structure breaks.",
+    rebirth: "Scattered again. Nothing stays fixed."
 };
 
 function setState(newState){
