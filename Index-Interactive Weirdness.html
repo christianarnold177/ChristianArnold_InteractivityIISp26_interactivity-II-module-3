@@ -83,7 +83,54 @@ resize();
 window.addEventListener("resize", resize);
 
 /* The Audio */
+const music = document.getElementById("music");
 
+// Autoplay Fallback //
+document.addEventListener("click", ()=>{
+    music.muted = false;
+    music.play().catch(()=>{});
+}, {once:true});
+
+/* The State System */
+let state = "calm";
+
+const messages = {
+    calm: "Everything drifts. Nothing demands your attention.",
+    active: "Motion responds. The system notices you.",
+    collapse: "Everything pulls inward. Structure breaks.",
+    rebirth: "Scattered again. Nothing stays fixed."
+};
+
+function setState(newState){
+    state = newState;
+    document.getElementById("message").textContent = messages[state];
+}
+
+/* The Mouse */
+let mouse = {x:0,y:0};
+
+window.addEventListener("mousemove",(e)=>{
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+});
+
+/* The Time */
+let time = 0;
+
+/* The Particles */
+const particles = [];
+const COUNT = 220;
+
+for(let i=0;i<COUNT;i++){
+    particles.push({
+        x:Math.random()*canvas.width,
+        y:Math.random()*canvas.height,
+        vx:0,
+        vy:0,
+        size:Math.random()*2+1,
+        hue:Math.random()*360
+    });
+}
 </script>
 </body>
 </html>
