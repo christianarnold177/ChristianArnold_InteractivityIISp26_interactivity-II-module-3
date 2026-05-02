@@ -251,25 +251,6 @@ function animate(){
         w.y += Math.cos(time*0.3)*0.3;
     });
 
-    /* The Sparkles */
-    sparkles.forEach(s=>{
-        s.life++;
-        let opacity = Math.sin((s.life/s.maxLife)*Math.PI);
-
-        ctx.fillStyle = getSparkleColor() + (opacity*0.6) + ")";
-        ctx.beginPath();
-        ctx.arc(s.x,s.y,s.size,0,Math.PI*2);
-        ctx.fill();
-
-        s.y -= 0.05;
-
-        if(s.life > s.maxLife){
-            s.x = Math.random()*canvas.width;
-            s.y = canvas.height+10;
-            s.life = 0;
-        }
-    });
-
     /* The Constellations */
     let maxDist = state==="active"?140:90;
 
@@ -360,6 +341,25 @@ function animate(){
         ctx.beginPath();
         ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
         ctx.fill();
+    });
+
+    /* The Sparkles */
+    sparkles.forEach(s=>{
+        s.life++;
+        let opacity = Math.sin((s.life/s.maxLife)*Math.PI);
+
+        ctx.fillStyle = getSparkleColor() + (opacity*0.6) + ")";
+        ctx.beginPath();
+        ctx.arc(s.x,s.y,s.size,0,Math.PI*2);
+        ctx.fill();
+
+        s.y -= 0.05;
+
+        if(s.life > s.maxLife){
+            s.x = Math.random()*canvas.width;
+            s.y = canvas.height+10;
+            s.life = 0;
+        }
     });
 
     requestAnimationFrame(animate);
