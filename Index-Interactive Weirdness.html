@@ -132,7 +132,7 @@ window.addEventListener("mousemove",(e)=>{
 
 /* The Particles */
 const particles = [];
-const COUNT = 220;
+const COUNT = 250;
 
 for(let i=0;i<COUNT;i++){
     particles.push({
@@ -172,7 +172,7 @@ for(let i=0;i<3;i++){
 
 /* The Sparkles */
 const sparkles = [];
-const SPARKLE_COUNT = 80;
+const SPARKLE_COUNT = 190;
 
 for(let i=0;i<SPARKLE_COUNT;i++){
     sparkles.push({
@@ -360,14 +360,6 @@ function animate(){
                 s.vy += dy * force;
             }
         });
-        // A Smooth Global Blink Rhythm //
-        let blink = (Math.sin(time * 2 + i) + 1) * 0.5;
-
-        ctx.fillStyle = getSparkleColor() + (blink * 0.9) + ")";
-
-        ctx.beginPath();
-        ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
-        ctx.fill();
 
         // Movement (Gravity, Drifting, and Floating) //
         s.x += (s.vx || 0) * 0.6;
@@ -382,6 +374,15 @@ function animate(){
             s.y = canvas.height + 10;
             s.x = Math.random() * canvas.width;
         }
+
+        // A Smooth Global Blink Rhythm //
+        let blink = (Math.sin(time * 2 + i) + 1) * 0.5;
+
+        ctx.fillStyle = getSparkleColor() + (blink * 0.9) + ")";
+
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+        ctx.fill();
     });
 
     requestAnimationFrame(animate);
