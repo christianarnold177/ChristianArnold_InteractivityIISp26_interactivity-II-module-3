@@ -85,21 +85,17 @@ function resize(){
 resize();
 window.addEventListener("resize", resize);
 
-/* =========================
-   TIME
-========================= */
+/* Time */
 let time = 0;
 
-/* =========================
-   STATE SYSTEM
-========================= */
+/* The State System */
 let state = "calm";
 
 const messages = {
-    calm: "everything slows down. nothing needs to happen.",
-    active: "you disturb the surface, and it answers back.",
-    collapse: "everything folds inward. nothing escapes.",
-    rebirth: "it spreads again, like nothing happened."
+    calm: "Everything slows down. Nothing needs to happen.",
+    active: "You disturb the surface, and it answers back.",
+    collapse: "Everything folds inward. Nothing escapes.",
+    rebirth: "It spreads again, like nothing happened."
 };
 
 function setState(newState){
@@ -107,9 +103,7 @@ function setState(newState){
     document.getElementById("message").textContent = messages[state];
 }
 
-/* =========================
-   MUSIC CONTROL
-========================= */
+/* The Music Control */
 const music = document.getElementById("music");
 const musicBtn = document.getElementById("musicBtn");
 
@@ -128,9 +122,7 @@ musicBtn.addEventListener("click",()=>{
     }
 });
 
-/* =========================
-   MOUSE
-========================= */
+/* The Mouse */
 let mouse = {x:0,y:0};
 
 window.addEventListener("mousemove",(e)=>{
@@ -138,11 +130,9 @@ window.addEventListener("mousemove",(e)=>{
     mouse.y = e.clientY;
 });
 
-/* =========================
-   PARTICLES
-========================= */
+/* The Particles */
 const particles = [];
-const COUNT = 220;
+const COUNT = 240;
 
 for(let i=0;i<COUNT;i++){
     particles.push({
@@ -155,9 +145,7 @@ for(let i=0;i<COUNT;i++){
     });
 }
 
-/* =========================
-   BLOBS
-========================= */
+/* The Blobs */
 const blobs = [];
 
 for(let i=0;i<6;i++){
@@ -171,9 +159,7 @@ for(let i=0;i<6;i++){
     });
 }
 
-/* =========================
-   GRAVITY WELLS
-========================= */
+/* The Gravity Wells */
 const wells = [];
 
 for(let i=0;i<3;i++){
@@ -184,11 +170,9 @@ for(let i=0;i<3;i++){
     });
 }
 
-/* =========================
-   SPARKLES
-========================= */
+/* The Sparkles */
 const sparkles = [];
-const SPARKLE_COUNT = 60;
+const SPARKLE_COUNT = 80;
 
 for(let i=0;i<SPARKLE_COUNT;i++){
     sparkles.push({
@@ -207,9 +191,7 @@ function getSparkleColor(){
     if(state==="rebirth") return "rgba(120,255,180,";
 }
 
-/* =========================
-   ANIMATION
-========================= */
+/* The Animation */
 function animate(){
 
     time += 0.01;
@@ -217,7 +199,7 @@ function animate(){
     ctx.fillStyle="rgba(0,0,0,0.2)";
     ctx.fillRect(0,0,canvas.width,canvas.height);
 
-    /* ===== BLOBS ===== */
+    /* The Blobs */
     blobs.forEach(b=>{
         let speed = state==="active"?0.05:0.02;
 
@@ -263,13 +245,13 @@ function animate(){
         ctx.fill();
     });
 
-    /* ===== WELLS DRIFT ===== */
+    /* Wells Drifting */
     wells.forEach(w=>{
         w.x += Math.sin(time*0.3)*0.3;
         w.y += Math.cos(time*0.3)*0.3;
     });
 
-    /* ===== SPARKLES ===== */
+    /* The Sparkles */
     sparkles.forEach(s=>{
         s.life++;
         let opacity = Math.sin((s.life/s.maxLife)*Math.PI);
@@ -288,7 +270,7 @@ function animate(){
         }
     });
 
-    /* ===== CONSTELLATIONS ===== */
+    /* The Constellations */
     let maxDist = state==="active"?140:90;
 
     for(let i=0;i<particles.length;i++){
@@ -314,7 +296,7 @@ function animate(){
         }
     }
 
-    /* ===== PARTICLES ===== */
+    /* The Particles */
     particles.forEach(p=>{
 
         let flowX = Math.sin(time)*0.1;
@@ -383,7 +365,7 @@ function animate(){
     requestAnimationFrame(animate);
 }
 
-/* START */
+/* At the Start */
 window.onload = () => {
     setState("calm");
     animate();
