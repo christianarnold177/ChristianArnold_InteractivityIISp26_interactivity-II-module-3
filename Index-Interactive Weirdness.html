@@ -178,7 +178,7 @@ for(let i=0;i<SPARKLE_COUNT;i++){
     sparkles.push({
         x:Math.random()*canvas.width,
         y:Math.random()*canvas.height,
-        size:Math.random()*2 + 0.5,
+        size:Math.random()*3 + 1,
         life:Math.random()*100,
         maxLife:80 + Math.random()*60
     });
@@ -186,9 +186,9 @@ for(let i=0;i<SPARKLE_COUNT;i++){
 
 function getSparkleColor(){
     if(state==="calm") return "rgba(255,255,255,";
-    if(state==="active") return "rgba(0,200,255,";
-    if(state==="collapse") return "rgba(255,80,80,";
-    if(state==="rebirth") return "rgba(120,255,180,";
+    if(state==="active") return "rgba(0,255,255,";
+    if(state==="collapse") return "rgba(255,120,120,";
+    if(state==="rebirth") return "rgba(180,255,200,";
 }
 
 /* The Animation */
@@ -196,7 +196,7 @@ function animate(){
 
     time += 0.01;
 
-    ctx.fillStyle="rgba(0,0,0,0.2)";
+    ctx.fillStyle="rgba(0,0,0,0.12)";
     ctx.fillRect(0,0,canvas.width,canvas.height);
 
     /* The Blobs */
@@ -348,7 +348,7 @@ function animate(){
         s.life++;
         let opacity = Math.sin((s.life/s.maxLife)*Math.PI);
 
-        ctx.fillStyle = getSparkleColor() + (opacity*0.6) + ")";
+        ctx.fillStyle = getSparkleColor() + (opacity*0.9) + ")";
         ctx.beginPath();
         ctx.arc(s.x,s.y,s.size,0,Math.PI*2);
         ctx.fill();
